@@ -21,6 +21,7 @@
 namespace Moltin\Cart;
 
 use Moltin\Tax\Tax;
+use Lesfleurs\Cart\Shipping;
 use InvalidArgumentException;
 
 class Item
@@ -28,6 +29,7 @@ class Item
     protected $identifier;
     protected $store;
     protected $tax;
+    protected $shipping;
 
     protected $data = array();
 
@@ -46,7 +48,7 @@ class Item
         foreach ($item as $key => $value) $this->data[$key] = $value;
 
         $item['tax'] = isset($item['tax']) ? $item['tax'] : 0;
-
+        $this->shipping = isset($item['shipping'] ? new Item_shipping($item['shipping']) : NULL;
         $this->tax = new Tax($item['tax']);
     }
 
@@ -160,5 +162,9 @@ class Item
     public function toArray()
     {
         return $this->data;
+    }
+    
+    public function getShippingTotal() {
+    	return false;
     }
 }
